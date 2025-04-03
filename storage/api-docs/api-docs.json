@@ -1,0 +1,718 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Pasquali Solution Api - Referência da API",
+        "description": "Documentação de cada EndPoint para integração.",
+        "contact": {
+            "email": "diego.pereira@pasqualisolution.com.br"
+        },
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "/api"
+        }
+    ],
+    "paths": {
+        "/travel/list": {
+            "get": {
+                "tags": [
+                    "Travel Requests"
+                ],
+                "summary": "Lista todas as solicitações de viagem",
+                "operationId": "97a9e0f97036c7c47ec402727117106f",
+                "responses": {
+                    "200": {
+                        "description": "Lista de solicitações de viagem"
+                    },
+                    "400": {
+                        "description": "Erro na requisição"
+                    }
+                }
+            }
+        },
+        "/travel/create": {
+            "post": {
+                "tags": [
+                    "Travel Requests"
+                ],
+                "summary": "Cria uma nova solicitação de viagem",
+                "operationId": "77e20c050aae3c951523f6b8def78f12",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "applicant_name",
+                                    "destination",
+                                    "departure_date",
+                                    "return_date"
+                                ],
+                                "properties": {
+                                    "applicant_name": {
+                                        "type": "string",
+                                        "example": "João Silva"
+                                    },
+                                    "destination": {
+                                        "type": "string",
+                                        "example": "Paris"
+                                    },
+                                    "departure_date": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "2025-06-15"
+                                    },
+                                    "return_date": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "2025-06-30"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Solicitação criada com sucesso"
+                    },
+                    "400": {
+                        "description": "Erro na requisição"
+                    }
+                }
+            }
+        },
+        "/travel/update": {
+            "put": {
+                "tags": [
+                    "Travel Requests"
+                ],
+                "summary": "Atualiza uma solicitação de viagem",
+                "operationId": "f54ce05babf9922dbca1603c86b89130",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "id",
+                                    "applicant_name",
+                                    "destination",
+                                    "departure_date",
+                                    "return_date"
+                                ],
+                                "properties": {
+                                    "id": {
+                                        "type": "integer",
+                                        "example": 2
+                                    },
+                                    "applicant_name": {
+                                        "type": "string",
+                                        "example": "João Silva"
+                                    },
+                                    "destination": {
+                                        "type": "string",
+                                        "example": "Paris"
+                                    },
+                                    "departure_date": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "2025-06-15"
+                                    },
+                                    "return_date": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "2025-06-30"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Solicitação atualizada com sucesso"
+                    },
+                    "404": {
+                        "description": "Solicitação não encontrada"
+                    }
+                }
+            }
+        },
+        "/travel/aprovar": {
+            "post": {
+                "tags": [
+                    "Travel Requests"
+                ],
+                "summary": "Aprova uma solicitação de viagem",
+                "operationId": "0a2455a1a85651aeab6c7c42ae0092fd",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "id"
+                                ],
+                                "properties": {
+                                    "id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Solicitação aprovada"
+                    },
+                    "404": {
+                        "description": "Solicitação não encontrada"
+                    }
+                }
+            }
+        },
+        "/travel/cancelar": {
+            "post": {
+                "tags": [
+                    "Travel Requests"
+                ],
+                "summary": "Cancela uma solicitação de viagem",
+                "operationId": "fba396b59a86b3def29cb7232b5c00d0",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "id"
+                                ],
+                                "properties": {
+                                    "id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Solicitação cancelada"
+                    },
+                    "404": {
+                        "description": "Solicitação não encontrada"
+                    }
+                }
+            }
+        },
+        "/auth/login": {
+            "post": {
+                "tags": [
+                    "Autenticação"
+                ],
+                "summary": "Autenticação e obtenção do token JWT",
+                "operationId": "a5385ffca73f113abef00ea604d1ca58",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "email",
+                                    "password"
+                                ],
+                                "properties": {
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email",
+                                        "example": "diego.pereira@pasqualisolution.com.br"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "format": "password",
+                                        "example": "password"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Token gerado com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "token": {
+                                            "type": "string",
+                                            "example": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1..."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Credenciais inválidas"
+                    }
+                }
+            }
+        },
+        "/api/register": {
+            "post": {
+                "tags": [
+                    "Autenticação"
+                ],
+                "summary": "Registrar um novo usuário",
+                "operationId": "ca7c0cb6772de9bffbb8c896980cebc8",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "email",
+                                    "password"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "João Silva"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email",
+                                        "example": "joao@email.com"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "format": "password",
+                                        "example": "senha123"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Usuário registrado com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "user": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "name": {
+                                                    "type": "string",
+                                                    "example": "João Silva"
+                                                },
+                                                "email": {
+                                                    "type": "string",
+                                                    "format": "email",
+                                                    "example": "joao@email.com"
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "token": {
+                                            "type": "string",
+                                            "example": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1..."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Erro de validação",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "O campo email já está em uso."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/updateRegister": {
+            "put": {
+                "tags": [
+                    "Autenticação"
+                ],
+                "summary": "Atualiza os dados do usuário autenticado",
+                "operationId": "465ca04cfb494c292b20fae7e6ae221b",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "Novo Nome"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email",
+                                        "example": "novo@email.com"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "format": "password",
+                                        "example": "novaSenha123"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Usuário atualizado com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Usuário atualizado com sucesso!"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "user": {
+                                                    "properties": {
+                                                        "id": {
+                                                            "type": "integer",
+                                                            "example": 1
+                                                        },
+                                                        "name": {
+                                                            "type": "string",
+                                                            "example": "Novo Nome"
+                                                        },
+                                                        "email": {
+                                                            "type": "string",
+                                                            "format": "email",
+                                                            "example": "novo@email.com"
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Não autorizado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Token não fornecido ou inválido."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Erro de validação",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "O email já está em uso."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Erro ao atualizar o usuário",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Erro ao atualizar o usuário!"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/logout": {
+            "post": {
+                "tags": [
+                    "Autenticação"
+                ],
+                "summary": "Faz logout do usuário",
+                "operationId": "5ff2dc8b48bff52908d3821a0ecc9b3e",
+                "responses": {
+                    "200": {
+                        "description": "Logout realizado com sucesso!",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Logout realizado com sucesso!"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Não autorizado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Token inválido ou expirado."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/user": {
+            "delete": {
+                "tags": [
+                    "Usuário"
+                ],
+                "summary": "Deleta o usuário autenticado",
+                "operationId": "1072d1d1c22c1b605310bd15fbe86070",
+                "responses": {
+                    "200": {
+                        "description": "Usuário deletado com sucesso!",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Usuário deletado com sucesso!"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Não autorizado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Token inválido ou expirado."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Erro interno do servidor",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Erro ao deletar usuário."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "TravelRequest": {
+                "required": [
+                    "user_id",
+                    "applicant_name",
+                    "destination",
+                    "departure_date",
+                    "return_date",
+                    "status"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "user_id": {
+                        "description": "ID do usuário solicitante",
+                        "type": "integer",
+                        "example": 5
+                    },
+                    "applicant_name": {
+                        "type": "string",
+                        "example": "João Silva"
+                    },
+                    "destination": {
+                        "type": "string",
+                        "example": "Paris, França"
+                    },
+                    "departure_date": {
+                        "type": "string",
+                        "format": "date",
+                        "example": "2025-06-15"
+                    },
+                    "return_date": {
+                        "type": "string",
+                        "format": "date",
+                        "example": "2025-06-20"
+                    },
+                    "status": {
+                        "description": "Status da solicitação (Pendente, Aprovado, Cancelado)",
+                        "type": "string",
+                        "example": "Aprovado"
+                    },
+                    "deleted_at": {
+                        "description": "Data de exclusão (soft delete)",
+                        "type": "string",
+                        "format": "date-time",
+                        "nullable": true
+                    }
+                },
+                "type": "object"
+            },
+            "User": {
+                "required": [
+                    "name",
+                    "email",
+                    "password"
+                ],
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "example": "João Silva"
+                    },
+                    "email": {
+                        "type": "string",
+                        "format": "email",
+                        "example": "joao@example.com"
+                    },
+                    "password": {
+                        "description": "Senha do usuário",
+                        "type": "string",
+                        "example": "123456"
+                    }
+                },
+                "type": "object"
+            }
+        },
+        "securitySchemes": {
+            "bearer": {
+                "type": "http",
+                "description": "Authorization token obtained from logging in.",
+                "name": "Authorization",
+                "in": "header",
+                "scheme": "bearer"
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Travel Requests",
+            "description": "Travel Requests"
+        },
+        {
+            "name": "Autenticação",
+            "description": "Autenticação"
+        },
+        {
+            "name": "Usuário",
+            "description": "Usuário"
+        }
+    ],
+    "security": [
+        {
+            "bearer": {
+                "type": "http",
+                "scheme": "bearer",
+                "bearerFormat": "JWT"
+            }
+        }
+    ]
+}
