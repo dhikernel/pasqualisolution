@@ -1,13 +1,13 @@
 volumes:
-  setup_db-vol:
+  pasquali_db-vol:
 services:
-  setup_db:
-    container_name: setup_db
+  pasquali_db:
+    container_name: pasquali_db
     image: mysql:5.7.22
     volumes:
-      - setup_db-vol:/var/lib/mysql
+      - ./docker/mysql_db:/var/lib/mysql
     ports:
-      - '3306:3306'
+      - '3307:3306'
     command: --max_allowed_packet=444194304
     environment:
       - MAX_EXECUTION_TIME=6000
@@ -15,59 +15,59 @@ services:
       - MEMORY_LIMIT=2048M
       - POST_MAX_SIZE=2048M
       - MYSQL_ROOT_PASSWORD=toor
-      - MYSQL_DATABASE=setup
+      - MYSQL_DATABASE=pasquali
       - MYSQL_USER=diego
       - MYSQL_PASSWORD=password
       - MYSQL_ROOT_HOST=127.0.0.1
     networks:
       - laravel
-  setup_pma:
-    container_name: setup_pma
+  pasquali_pma:
+    container_name: pasquali_pma
     image: phpmyadmin/phpmyadmin:latest
     links:
-      - setup_db
+      - pasquali_db
     ports:
-      - 8000:80
+      - 8081:80
     environment:
       - PMA_ARBITRARY=1
       - UPLOAD_LIMIT=1000000000
     networks:
       - laravel
-  setup_redis:
-    container_name: setup_redis
+  pasquali_redis:
+    container_name: pasquali_redis
     image: redis
-    command: redis-server --requirepass RedisDiego!
+    command: redis-server --requirepass Redis!
     ports:
-      - "6379:6379"
+      - "6378:6379"
     networks:
       - laravel
-  setup_site:
-    container_name: setup_site
+  pasquali_site:
+    container_name: pasquali_site
     build:
-        args:
-            user: diego
-            uid: 1000
-        context: .
-        dockerfile: Dockerfile
+      args:
+        user: diego
+        uid: 1000
+      context: .
+      dockerfile: Dockerfile
     restart: unless-stopped
     working_dir: /var/www/
     volumes:
       - ./:/var/www
     depends_on:
-      - setup_redis
+      - pasquali_redis
     networks:
       - laravel
-  setup_nginx:
-    container_name: 'setup_nginx'
+  pasquali_nginx:
+    container_name: 'pasquali_nginx'
     image: nginx:alpine
     restart: unless-stopped
     ports:
-        - "8989:80"
+      - "80:80"
     volumes:
-        - ./:/var/www
-        - ./docker/nginx/:/etc/nginx/conf.d/
+      - ./:/var/www
+      - ./docker/nginx/:/etc/nginx/conf.d/
     networks:
-        - laravel
+      - laravel
 networks:
-    laravel:
-        driver: bridge
+  laravel:
+    driver: bridge
