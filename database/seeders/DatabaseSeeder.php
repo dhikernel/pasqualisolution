@@ -16,8 +16,11 @@ class DatabaseSeeder extends Seeder
         // User::factory(10)->create();
 
         User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
+            'name' => 'Diego Pereira',
+            'email' => 'diego.pereira@pasqualisolution.com.br',
+            'password'   => bcrypt('password'),
         ]);
+
+        \App\Domain\TravelRequest\Models\TravelRequest::factory(10)->create();
     }
 }

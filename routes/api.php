@@ -1,5 +1,6 @@
 <?php
 
+use App\Domain\TravelRequest\Controllers\TravelRequestController;
 use App\Http\Controllers\Auth\AuthController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -19,6 +20,19 @@ Route::prefix('auth')->group(function () {
     Route::middleware('auth:api')->get('/user', function (Request $request) {
         return $request->user();
     });
+});
+
+Route::prefix('travel')->group(function () {
+
+    Route::get('/list', [TravelRequestController::class, 'index'])->middleware(['auth:api'])->name('travel.index');
+
+    Route::post('/create', [TravelRequestController::class, 'store'])->middleware(['auth:api'])->name('travel.store');
+
+    Route::put('/status/aprovar', [TravelRequestController::class, 'aprovar'])->middleware(['auth:api'])->name('travel.aprovar');
+
+    Route::put('/status/cancelado', [TravelRequestController::class, 'cancelado'])->middleware(['auth:api'])->name('travel.cancelado');
+
+    Route::delete('/delete', [TravelRequestController::class, 'destroy'])->middleware(['auth:api'])->name('travel.destroy');
 });
 
 
