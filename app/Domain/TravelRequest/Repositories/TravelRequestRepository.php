@@ -17,6 +17,8 @@ class TravelRequestRepository
 {
     public function index()
     {
+        $user = Auth::user();
+
         $query = QueryBuilder::for(TravelRequest::class)
             ->allowedFilters([
                 AllowedFilter::exact('id', 'id'),
@@ -24,6 +26,7 @@ class TravelRequestRepository
                 AllowedFilter::custom('departure_date', new FiltersBetween()),
                 AllowedFilter::custom('return_date', new FiltersBetween()),
             ])
+            ->where('user_id', $user->id)
             ->defaultSort('created_at')
             ->get();
 
@@ -52,6 +55,28 @@ class TravelRequestRepository
             'viagem' => $createdTravelRequest
         ];
     }
+
+    public function updateTravelRequest(array $data)
+    {
+        $user = Auth::user();
+
+        $updateTravel = TravelRequest::where('id', $data['travelId'])
+            ->where('user_id', $user->id)
+            ->first();
+
+        if (!$updateTravel) {
+            return [
+                'message' => 'Você não tem permissão para atualizar esta solicitação de viagem.'
+            ];
+        }
+        $updateTravel->fill($data);
+        $updateTravel->save();
+
+        return [
+            'message' => 'Solicitação de viagem atualizada com sucesso!'
+        ];
+    }
+
 
     public function statusAprovar($travelRequest)
     {
@@ -101,5 +126,4 @@ class TravelRequestRepository
 
         return ['mensagem' => 'Status foi cancelado com sucesso.'];
     }
-
 }

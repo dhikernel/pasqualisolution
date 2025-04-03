@@ -35,6 +35,19 @@ class TravelRequestController extends Controller
         return parent::store($request);
     }
 
+    public function updateTravel(Request $request)
+    {
+        try {
+            if (!empty($this->repository)) {
+                return response()->json($this->repository->updateTravelRequest($request->all()))
+                    ->setStatusCode(Response::HTTP_OK, Response::$statusTexts[Response::HTTP_OK]);
+            }
+        } catch (\Exception $exception) {
+            return response()->json(['messagem' => $exception->getMessage()])
+                ->setStatusCode(Response::HTTP_NOT_FOUND, Response::$statusTexts[Response::HTTP_NOT_FOUND]);
+        }
+    }
+
     public function aprovar(Request $request)
     {
         try {
