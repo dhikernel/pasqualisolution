@@ -43,8 +43,13 @@ class TravelRequestControllerTest extends TestCase
 
     public function testIndex()
     {
-        $this->get($this->route . 'list')->assertStatus(Response::HTTP_OK);
+        $response = $this->getJson($this->route . '/list');
+
+        $response->json();
+
+        $response->assertStatus(Response::HTTP_OK);
     }
+
 
     public function testStore()
     {
@@ -52,6 +57,33 @@ class TravelRequestControllerTest extends TestCase
         $data = $this->getPayloadTravelRequest();
         $response = $this->post($this->route . 'create', $data);
         $response->assertStatus(Response::HTTP_CREATED);
+    }
+
+    public function testUpdate()
+    {
+        $user = User::factory()->create();
+        $this->actingAs($user);
+
+        $travelRequest = TravelRequest::factory()->create([
+            'user_id' => $user->id
+        ]);
+
+        $data = [
+            'travelId' => $travelRequest->getKey(),
+            'destination' => 'Rio de Janeiro',
+            'status' => 'aprovado',
+        ];
+
+        $response = $this->putJson($this->route . 'update', $data);
+
+        $response->assertStatus(Response::HTTP_OK)
+            ->assertJson(['message' => 'Solicitação de viagem atualizada com sucesso!']);
+
+        $this->assertDatabaseHas('travel_requests', [
+            'id' => $travelRequest->getKey(),
+            'destination' => 'Rio de Janeiro',
+            'status' => 'aprovado',
+        ]);
     }
 
     public function testAprovar()
