@@ -1,67 +1,82 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Pasquali Solutions
+Microserviço Pasquali usando as seguintes tecnologias:
+- **PHP**: 8.3
+- **Laravel**: 12
+- **MySQL**: 5.7
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## Instalação
+Passos para a instalação:
 
-## About Laravel
+### **Passo 1** - Clone o repositório
+```sh
+git clone https://github.com/dhikernel/pasqualisolution.git pasquali
+cd pasquali
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+### Passo 2
+Substitua substituir o ID que nomeia os cotainers pela "nomeclatura" que julgar mais adequeda para os seguintes arquivos:
+ - docker-compose.yml
+ - docker/nginx/laravel.conf
+ - .env
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+### Passo 3
+Rode o seguinte comandos no terminal:
+```
+esse comando constrói e inicia os containers em segundo plano:
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+docker-compose up -d --build --force-recreate
+```
+Dica: Se houver erro na conexão com MySQL, talvez o serviço ainda não esteja pronto. Aguarde alguns segundos ou reinicie os containers:
 
-## Learning Laravel
+docker compose restart
+```
+### Passo 4
+execute os seguintes comandos:
+```
+docker exec -it pasquali_site composer install
+docker exec -it pasquali_site cp .env.example .env
+docker exec -it pasquali_site php artisan key:generate
+docker exec -it pasquali_site php artisan jwt:secret
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+Dica: Se for rodar no Windows, pode precisar usar winpty antes do docker exec:
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+winpty docker exec -it pasquali_site php artisan key:generate
+```
+### Passo 5
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+setar as variáveis de ambiente para o banco de dados no arquivo .env:
+```
+DB_CONNECTION=mysql
+DB_HOST=pasquali_db
+DB_PORT=3306
+DB_DATABASE=pasquali
+DB_USERNAME=usuario
+DB_PASSWORD=password
+```
+Dica: Confirme se o nome do container do banco é realmente pasquali_db. Caso tenha alterado no Passo 2, esse nome precisa ser ajustado aqui também.
 
-## Laravel Sponsors
+### Passo 6:
+docker exec -it pasquali_site php artisan migrate --seed
+```
+Se precisar recriar o banco (apagar tudo e recriar):
+docker exec -it pasquali_site php artisan migrate:fresh --seed
+```
+O migrate:fresh --seed deleta todas as tabelas e recria do zero.
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+Dica: Se houver erro no MySQL, pode ser necessário esperar o banco estar pronto antes de rodar as migrações. Para verificar:
 
-### Premium Partners
+docker logs pasquali_db
+```
+Se ainda der erro de conexão, tente reiniciar o container:
+docker compose restart pasquali_db
+```
+### Passo 7
+ - Acesse o site na URL: 
+ # Abra no navegador
+http://localhost
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+Se estiver em um ambiente remoto, substitua localhost pelo IP do servidor.
 
-## Contributing
+📌 Dica: Se o site não carregar, verifique os logs do Nginx para possíveis erros:
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
-"# pasqualisolution" 
+```
+docker logs pasquali_nginx
