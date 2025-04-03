@@ -28,6 +28,8 @@ Route::prefix('travel')->group(function () {
 
     Route::post('/create', [TravelRequestController::class, 'store'])->middleware(['auth:api'])->name('travel.store');
 
+    Route::put('/update', [TravelRequestController::class, 'updateTravel'])->middleware('auth:api')->name('travel.updateTravel');
+
     Route::put('/status/aprovar', [TravelRequestController::class, 'aprovar'])->middleware(['auth:api'])->name('travel.aprovar');
 
     Route::put('/status/cancelar', [TravelRequestController::class, 'cancelar'])->middleware(['auth:api'])->name('travel.cancelar');
