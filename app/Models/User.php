@@ -11,6 +11,15 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
+/**
+ * @OA\Schema(
+ *     schema="User",
+ *     required={"name", "email", "password"},
+ *     @OA\Property(property="name", type="string", example="João Silva"),
+ *     @OA\Property(property="email", type="string", format="email", example="joao@example.com"),
+ *     @OA\Property(property="password", type="string", example="123456", description="Senha do usuário")
+ * )
+ */
 class User extends Authenticatable implements JWTSubject
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
