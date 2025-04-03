@@ -48,11 +48,11 @@ class TravelRequestController extends Controller
         }
     }
 
-    public function cancelado(Request $request)
+    public function cancelar(Request $request)
     {
         try {
             if (!empty($this->repository)) {
-                return response()->json($this->repository->statusCAncelado($request->all()))
+                return response()->json($this->repository->statusCAncelar($request->all()))
                     ->setStatusCode(Response::HTTP_OK, Response::$statusTexts[Response::HTTP_OK]);
             }
         } catch (\Exception $exception) {

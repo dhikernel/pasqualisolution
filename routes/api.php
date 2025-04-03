@@ -30,9 +30,7 @@ Route::prefix('travel')->group(function () {
 
     Route::put('/status/aprovar', [TravelRequestController::class, 'aprovar'])->middleware(['auth:api'])->name('travel.aprovar');
 
-    Route::put('/status/cancelado', [TravelRequestController::class, 'cancelado'])->middleware(['auth:api'])->name('travel.cancelado');
-
-    Route::delete('/delete', [TravelRequestController::class, 'destroy'])->middleware(['auth:api'])->name('travel.destroy');
+    Route::put('/status/cancelar', [TravelRequestController::class, 'cancelar'])->middleware(['auth:api'])->name('travel.cancelar');
 });
 
 

@@ -56,42 +56,50 @@ class TravelRequestRepository
     public function statusAprovar($travelRequest)
     {
         $user = Auth::user();
-
         $findTravel = TravelRequest::where('user_id', $user->id)->first();
+
         if ($findTravel) {
             return [
                 'mensagem' => 'Você não está autorizado a atualizar o status da sua própria solicitação de viagem ou a solicitação não existe!'
             ];
         }
+
         $updateTravelStatus = TravelRequest::find($travelRequest['travelId']);
 
-        $updateTravelStatus['status'] = TravelRequestStatus::APROVADO->value;
+        if (!$updateTravelStatus) {
+            return ['mensagem' => 'Solicitação de viagem não encontrada.'];
+        }
 
-        $updateTravelStatus->fill($travelRequest)->save();
+        $updateTravelStatus->status = TravelRequestStatus::APROVADO->value;
+        $updateTravelStatus->fill($travelRequest);
+        $updateTravelStatus->save();
 
-        return [
-            'mensagem' => 'status aprovado com sucesso!'
-        ];
+        return ['mensagem' => 'Status aprovado com sucesso!'];
     }
 
-    public function statusCancelado($travelRequest)
+
+    public function statusCancelar($travelRequest)
     {
         $user = Auth::user();
-
         $findTravel = TravelRequest::where('user_id', $user->id)->first();
+
         if ($findTravel) {
             return [
                 'mensagem' => 'Você não está autorizado a atualizar o status da sua própria solicitação de viagem ou a solicitação não existe!'
             ];
         }
+
         $updateTravelStatus = TravelRequest::find($travelRequest['travelId']);
 
-        $updateTravelStatus['status'] = TravelRequestStatus::CANCELADO->value;
+        if (!$updateTravelStatus) {
+            return ['mensagem' => 'Solicitação de viagem não encontrada.'];
+        }
 
-        $updateTravelStatus->fill($travelRequest)->save();
+        $updateTravelStatus->status = TravelRequestStatus::CANCELADO->value;
+        $updateTravelStatus->fill($travelRequest);
+        $updateTravelStatus->save();
 
-        return [
-            'mensagem' => 'status foi cancelado com sucesso.'
-        ];
+        return ['mensagem' => 'Status foi cancelado com sucesso.'];
     }
+
 }
