@@ -80,3 +80,39 @@ Se estiver em um ambiente remoto, substitua localhost pelo IP do servidor.
 
 ```
 docker logs pasquali_nginx
+```
+
+### Passo 8 - Rodar os testes
+Execute os testes para garantir que o sistema está funcionando corretamente. Use o seguinte comando:
+
+```
+docker exec -it pasquali_site php artisan test
+```
+
+📌 Dica: Certifique-se de que todas as dependências foram instaladas e o banco de dados está configurado corretamente antes de rodar os testes.
+
+#### Rodar testes específicos com filtro
+Se você deseja executar apenas testes específicos, utilize a opção `--filter` seguida do nome do teste ou método. Por exemplo:
+
+```
+docker exec -it pasquali_site php artisan test --filter=NomeDoTeste
+```
+
+📌 Exemplos práticos:
+
+1. Para rodar todos os métodos da classe `UserTest`:
+```
+docker exec -it pasquali_site php artisan test --filter=UserTest
+```
+
+2. Para rodar apenas o método `testUserCreation` da classe `UserTest`:
+```
+docker exec -it pasquali_site php artisan test --filter=UserTest::testUserCreation
+```
+
+3. Para rodar um método específico de outra classe, como `OrderTest::testOrderProcessing`:
+```
+docker exec -it pasquali_site php artisan test --filter=OrderTest::testOrderProcessing
+```
+
+📌 Dica: Certifique-se de que o nome do teste ou método está correto e sensível a maiúsculas e minúsculas.
