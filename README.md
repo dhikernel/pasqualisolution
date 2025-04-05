@@ -23,7 +23,7 @@ Rode o seguinte comandos no terminal:
 ```
 esse comando constrói e inicia os containers em segundo plano:
 
-docker-compose up -d --build --force-recreate
+docker compose up -d --build --force-recreate
 ```
 Dica: Se houver erro na conexão com MySQL, talvez o serviço ainda não esteja pronto. Aguarde alguns segundos ou reinicie os containers:
 
